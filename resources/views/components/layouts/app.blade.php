@@ -1,3 +1,4 @@
+@props(['title' => null, 'web_description' => null, 'socials' => ''])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -5,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'Page Title' }}</title>
+    <title>{{ $title ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
     @vite('resources/css/app.css')
 
 </head>
@@ -18,7 +19,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ mobileMenuOpen: false }">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <a href="index.html" class="text-xl font-bold text-indigo-600 dark:text-indigo-400">John Doe</a>
+                    <a href="{{ route('home') }}" wire:navigate
+                        class="text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ config('app.name') }}</a>
                 </div>
 
                 <!-- Desktop Navigation -->
@@ -79,32 +81,31 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-3 gap-8">
                 <div>
-                    <h3 class="text-xl font-bold mb-4">John Doe</h3>
+                    <h3 class="text-xl font-bold mb-4">{{ config('app.name') }}</h3>
                     <p class="text-gray-400">
-                        Full Stack Developer dengan passion dalam membangun aplikasi web yang powerful dan
-                        user-friendly.
+                        {{ $web_description ?? 'Unknown' }}
                     </p>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="blog-list.html" class="hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="portfolio-list.html" class="hover:text-white transition-colors">Portfolio</a></li>
-                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="{{ route('home') }}" wire:navigate
+                                class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{{ route('blogs') }}" wire:navigate
+                                class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="{{ route('projects') }}" wire:navigate
+                                class="hover:text-white transition-colors">Project</a></li>
+                        <li><a href="{{ route('contact') }}" wire:navigate
+                                class="hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Connect</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Twitter</a>
-                    </div>
+                    {{ $socials }}
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 John Doe. All rights reserved.</p>
+                <p>&copy; 2024 {{ $web_name ?? 'My Blog' }}. All rights reserved.</p>
             </div>
         </div>
     </footer>

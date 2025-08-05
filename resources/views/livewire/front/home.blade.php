@@ -1,28 +1,45 @@
+@assets
+<meta property="og:title" content="{{ $generalSetting['person_name'] }} - {{ $generalSetting['person_title'] }}">
+<meta property="og:description" content="{{ $generalSetting['website_description'] }}">
+<meta property="og:image" content="{{ asset('storage/' . $generalSetting['person_avatar']) }}">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ $generalSetting['person_name'] }} - {{ $generalSetting['person_title'] }}">
+<meta name="twitter:description" content="{{ $generalSetting['website_description'] }}">
+<meta name="twitter:image" content="{{ asset('storage/' . $generalSetting['person_avatar']) }}">
+<link rel="icon" type="image/x-icon"
+  href="{{ $generalSetting['icon'] ? asset('storage/' . $generalSetting['icon']) : '' }}">
+@endassets
+<x-slot name="socials">
+    <x-social-footer :socials="$socials" />
+</x-slot>
+<x-slot name="web_description">
+    {{ $generalSetting['website_description'] }}
+</x-slot>
+
 <div>
     <!-- Hero Section -->
     <section class="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <div class="text-center animate-fade-in">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-                    alt="John Doe" class="w-32 h-32 rounded-full mx-auto mb-6 ring-4 ring-indigo-500">
+                <img src="{{ asset('storage/' . $generalSetting['person_avatar']) }}"
+                    alt="{{ $generalSetting['person_name'] }}" class="w-32 h-32 rounded-full mx-auto mb-6 ring-4 ring-indigo-500">
                 <h1
                     class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                    John Doe
+                    {{ $generalSetting['person_name'] }}
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8">
-                    Full Stack Developer & Technical Writer
+                    {{ $generalSetting['person_title'] }}   
                 </p>
                 <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-                    Saya adalah pengembang full-stack dengan passion dalam membangun aplikasi web modern menggunakan
-                    teknologi terkini.
-                    Saya percaya bahwa kode yang baik adalah kode yang mudah dipahami dan dipelihara.
+                    {{ $generalSetting['person_bio'] }}
                 </p>
                 <div class="flex justify-center space-x-4">
-                    <a href="Project-list.html"
+                    <a href="{{ route('projects') }}" wire:navigate
                         class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
                         Lihat Project
                     </a>
-                    <a href="contact.html"
+                    <a href="{{ route('contact') }}" wire:navigate
                         class="border border-gray-300 dark:border-gray-600 px-6 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                         Hubungi Saya
                     </a>
@@ -36,30 +53,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center mb-12">Tech Stack</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center">
-                <div class="animate-slide-up">
-                    <div class="text-4xl mb-2">⚛️</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">React</p>
-                </div>
-                <div class="animate-slide-up" style="animation-delay: 0.1s">
-                    <div class="text-4xl mb-2">🟢</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Node.js</p>
-                </div>
-                <div class="animate-slide-up" style="animation-delay: 0.2s">
-                    <div class="text-4xl mb-2">🎨</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Tailwind</p>
-                </div>
-                <div class="animate-slide-up" style="animation-delay: 0.3s">
-                    <div class="text-4xl mb-2">🐘</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">PostgreSQL</p>
-                </div>
-                <div class="animate-slide-up" style="animation-delay: 0.4s">
-                    <div class="text-4xl mb-2">🔥</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Firebase</p>
-                </div>
-                <div class="animate-slide-up" style="animation-delay: 0.5s">
-                    <div class="text-4xl mb-2">☁️</div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">AWS</p>
-                </div>
+                @forelse ($techStacks as $techStack)
+                    <div class="animate-slide-up">
+                        <div><img src="{{ asset('storage/' . $techStack->image) }}"
+                                alt="{{ $techStack->name }}" class="w-16 h-16 mx-auto"></div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $techStack->name }}</p>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-600 dark:text-gray-400">No tech stack found</p>
+                @endforelse
             </div>
         </div>
     </section>
@@ -69,77 +71,53 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
                 <h2 class="text-3xl font-bold">Blog Terbaru</h2>
-                <a href="blog-list.html" class="text-indigo-600 dark:text-indigo-400 hover:underline">Lihat semua →</a>
+                <a href="{{ route('blogs') }}" wire:navigate
+                    class="text-indigo-600 dark:text-indigo-400 hover:underline">Lihat
+                    semua →</a>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Blog Post 1 -->
-                <article
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop"
-                        alt="React Hooks Best Practices" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <span>React</span>
-                            <span class="mx-2">•</span>
-                            <span>5 min read</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">React Hooks Best Practices untuk Performa Maksimal</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-                            Pelajari cara menggunakan React Hooks secara efisien untuk meningkatkan performa aplikasi
-                            React Anda.
-                        </p>
-                        <a href="blog-detail.html?id=1"
-                            class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                            Baca selengkapnya →
-                        </a>
+                @forelse ($posts as $post)
+                    <div>
+                        <article
+                            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col min-h-full">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                                class="w-full h-48 object-cover">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <div
+                                    class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="capitalize">{{ $post->category->name }}</span>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2 line-clamp-2">{{ $post->title }}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{{ $post->excerpt }}</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    @foreach ($post->tags as $tag)
+                                        <span
+                                            class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">{{ $tag }}</span>
+                                    @endforeach
+                                </div>
+                                <a href="{{ route('blog-detail', $post->slug) }}" wire:navigate
+                                    class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                                    Baca selengkapnya →
+                                </a>
+                            </div>
+                        </article>
                     </div>
-                </article>
-
-                <!-- Blog Post 2 -->
-                <article
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=200&fit=crop"
-                        alt="Node.js Performance" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <span>Node.js</span>
-                            <span class="mx-2">•</span>
-                            <span>8 min read</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">Optimasi Performa Node.js: Tips dan Trik Terbaik</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-                            Panduan komprehensif untuk mengoptimalkan performa aplikasi Node.js Anda dengan
-                            teknik-teknik terbaru.
-                        </p>
-                        <a href="blog-detail.html?id=2"
-                            class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                            Baca selengkapnya →
-                        </a>
+                @empty
+                    <!-- Empty State -->
+                    <div class="col-span-full text-center py-12">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.5-.811-6.223-2.167M15 6a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400 mb-2">Tidak ada artikel
+                            ditemukan
+                        </h3>
+                        <p class="text-gray-400 dark:text-gray-500">Coba ubah kata pencarian atau filter kategori
+                            Anda.</p>
                     </div>
-                </article>
-
-                <!-- Blog Post 3 -->
-                <article
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop"
-                        alt="TypeScript Tips" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <span>TypeScript</span>
-                            <span class="mx-2">•</span>
-                            <span>6 min read</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">TypeScript Tips untuk Developer JavaScript</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-                            Transisi dari JavaScript ke TypeScript dengan tips dan best practices yang akan membuat kode
-                            Anda lebih maintainable.
-                        </p>
-                        <a href="blog-detail.html?id=3"
-                            class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                            Baca selengkapnya →
-                        </a>
-                    </div>
-                </article>
+                @endforelse
             </div>
         </div>
     </section>
@@ -149,72 +127,73 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
                 <h2 class="text-3xl font-bold">Project Unggulan</h2>
-                <a href="Project-list.html" class="text-indigo-600 dark:text-indigo-400 hover:underline">Lihat semua
+                <a href="{{ route('projects') }}" wire:navigate
+                    class="text-indigo-600 dark:text-indigo-400 hover:underline">Lihat
+                    semua
                     →</a>
             </div>
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Project 1 -->
-                <div
-                    class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=300&fit=crop"
-                        alt="E-commerce Platform" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-2">E-commerce Platform Modern</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">
-                            Platform e-commerce lengkap dengan fitur real-time inventory, payment gateway, dan admin
-                            dashboard.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm rounded-full">React</span>
-                            <span
-                                class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-full">Node.js</span>
-                            <span
-                                class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-full">PostgreSQL</span>
+                @forelse ($projects as $project)
+                    <div
+                        class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="relative group">
+                            <img src="{{ asset('storage/' . $project->main_image) }}" alt="{{ $project->name }}"
+                                class="w-full h-64 object-cover">
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <div class="text-center text-white">
+                                    <a href="{{ route('project-detail', $project->slug) }}" wire:navigate
+                                        class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors mb-2">
+                                        Detail Project
+                                    </a>
+                                    <div class="flex justify-center space-x-4">
+                                        @if ($project->live_demo)
+                                            <a href="{{ $project->live_demo }}"
+                                                class="text-white hover:text-indigo-300 transition-colors">Demo →</a>
+                                        @endif
+                                        @if ($project->source_code)
+                                            <a href="{{ $project->source_code }}"
+                                                class="text-white hover:text-indigo-300 transition-colors">GitHub →</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex space-x-4">
-                            <a href="Project-detail.html?id=1"
-                                class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                                Detail Project
-                            </a>
-                            <a href="#"
-                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                                Demo →
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Project 2 -->
-                <div
-                    class="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=300&fit=crop"
-                        alt="Task Management App" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-2">Task Management App</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">
-                            Aplikasi manajemen tugas tim dengan real-time collaboration, drag & drop, dan notifikasi.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded-full">Vue.js</span>
-                            <span
-                                class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm rounded-full">Firebase</span>
-                            <span
-                                class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 text-sm rounded-full">Tailwind</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="Project-detail.html?id=2"
-                                class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                                Detail Project
-                            </a>
-                            <a href="#"
-                                class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                                Demo →
-                            </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">{{ $project->name }}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                                {{ $project->preview_description }}
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                @foreach ($project->tech_stack as $tech)
+                                    <span
+                                        class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">{{ $tech }}</span>
+                                @endforeach
+                            </div>
+
+                            <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                                <span> {{ $project->created_at->format('F Y') }} </span>
+                                <span class="capitalize">{{$project->status->getLabel()}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <!-- Empty State -->
+                    <div class="col-span-full text-center py-12">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.5-.811-6.223-2.167M15 6a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400 mb-2">Tidak ada project
+                            yang sesuai
+                        </h3>
+                        <p class="text-gray-400 dark:text-gray-500">Coba ubah kata pencarian Anda.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -226,7 +205,7 @@
             <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
                 Punya proyek menarik? Saya selalu terbuka untuk kolaborasi dan diskusi.
             </p>
-            <a href="contact.html"
+            <a href="{{ route('contact') }}" wire:navigate
                 class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors inline-block">
                 Hubungi Saya
             </a>
