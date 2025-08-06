@@ -19,8 +19,7 @@ Fitur utama aplikasi ini:
 3. Buat file `.env` dari `.env.example`
 4. Generate key dengan `php artisan key:generate`
 5. Jalankan migrasi database `php artisan migrate`
-6. Jalankan seeder `php artisan db:seed`
-7. Jalankan aplikasi dengan `php artisan serve`
+6. Jalankan aplikasi dengan `php artisan serve`
 
 Untuk akses admin panel:
 - Buka `/admin`
