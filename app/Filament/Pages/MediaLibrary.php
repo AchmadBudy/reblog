@@ -11,7 +11,7 @@ class MediaLibrary extends Page
 {
     protected static ?string $navigationGroup = 'Post Management';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     protected static string $view = 'filament.pages.media-library';
 
