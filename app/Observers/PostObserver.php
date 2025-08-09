@@ -52,8 +52,8 @@ class PostObserver
     public function forceDeleted(Post $post): void
     {
         // delete image
-        if (Storage::disk('public')->exists('storage/'.$post->image)) {
-            Storage::disk('public')->delete('storage/'.$post->image);
+        if (Storage::disk('public')->exists($post->image)) {
+            Storage::disk('public')->delete($post->image);
         }
     }
 }

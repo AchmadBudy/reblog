@@ -29,10 +29,11 @@ class PostResource extends Resource
                         Forms\Components\TextInput::make('title')
                             ->unique(ignoreRecord: true)
                             ->required(),
-
                         Forms\Components\RichEditor::make('content')
-                            ->disableToolbarButtons(['attachFiles'])
-                            ->required(),
+                            ->required()
+                            ->fileAttachmentsDisk('public')
+                            ->fileAttachmentsVisibility('public')
+                            ->fileAttachmentsDirectory('posts/content'),
                     ])
                     ->columnSpan([
                         'md' => 2,
