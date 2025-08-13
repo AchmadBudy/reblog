@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use App\Enum\ProjectStatusEnum;
 use App\Observers\ProjectObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -28,9 +29,9 @@ use Illuminate\Support\Str;
  * @property string $status
  * @property int $duration_days
  * @property int $team_size
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
- * @property \Illuminate\Support\Carbon $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 #[ObservedBy([ProjectObserver::class])]
 class Project extends Model

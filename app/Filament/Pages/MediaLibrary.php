@@ -9,11 +9,11 @@ use Livewire\Attributes\Url;
 
 class MediaLibrary extends Page
 {
-    protected static ?string $navigationGroup = 'Post Management';
+    protected static string | \UnitEnum | null $navigationGroup = 'Post Management';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
-    protected static string $view = 'filament.pages.media-library';
+    protected string $view = 'filament.pages.media-library';
 
     #[Url(as: 'page')]
     public $currentPage = '';

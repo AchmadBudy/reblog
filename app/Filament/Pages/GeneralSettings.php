@@ -2,11 +2,17 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
 use App\Settings\GeneralSetting;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Storage;
@@ -17,11 +23,11 @@ class GeneralSettings extends Page implements HasForms
 
     public ?array $data = [];
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
-    protected static string $view = 'filament.pages.general-settings';
+    protected string $view = 'filament.pages.general-settings';
 
     public function mount(GeneralSetting $settings): void
     {
@@ -37,15 +43,15 @@ class GeneralSettings extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('General Settings')
+        return $schema
+            ->components([
+                Section::make('General Settings')
                     ->schema([
-                        Forms\Components\TextInput::make('person_name')
+                        TextInput::make('person_name')
                             ->required(),
-                        Forms\Components\FileUpload::make('person_avatar')
+                        FileUpload::make('person_avatar')
                             ->directory('images')
                             ->image()
                             ->imageEditor()
@@ -55,19 +61,19 @@ class GeneralSettings extends Page implements HasForms
                                 '1:1',
                             ])
                             ->required(),
-                        Forms\Components\Textarea::make('person_bio')
+                        Textarea::make('person_bio')
                             ->rows(5)
                             ->required(),
-                        Forms\Components\TextInput::make('person_title')
+                        TextInput::make('person_title')
                             ->required(),
-                        Forms\Components\TextInput::make('person_email')
+                        TextInput::make('person_email')
                             ->required(),
-                        Forms\Components\TextInput::make('person_location')
+                        TextInput::make('person_location')
                             ->required(),
-                        Forms\Components\Textarea::make('website_description')
+                        Textarea::make('website_description')
                             ->rows(5)
                             ->required(),
-                        Forms\Components\FileUpload::make('icon')
+                        FileUpload::make('icon')
                             ->directory('images')
                             ->image()
                             ->imageEditor()
@@ -77,8 +83,8 @@ class GeneralSettings extends Page implements HasForms
                                 '1:1',
                             ])
                             ->required(),
-                        Forms\Components\Actions::make([
-                            Forms\Components\Actions\Action::make('Save')
+                        Actions::make([
+                            Action::make('Save')
                                 ->translateLabel()
                                 ->requiresConfirmation()
                                 ->action('saveSettings'),

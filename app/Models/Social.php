@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use App\Observers\SocialObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -14,8 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $username
  * @property string $url
  * @property string $image
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 #[ObservedBy([SocialObserver::class])]
 class Social extends Model
