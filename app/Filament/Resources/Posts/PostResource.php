@@ -2,39 +2,36 @@
 
 namespace App\Filament\Resources\Posts;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TagsInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
-use App\Filament\Resources\Posts\Pages\ListPosts;
 use App\Filament\Resources\Posts\Pages\CreatePost;
 use App\Filament\Resources\Posts\Pages\EditPost;
-use App\Filament\Resources\PostResource\Pages;
+use App\Filament\Resources\Posts\Pages\ListPosts;
 use App\Models\Post;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PostResource extends Resource
 {
-    protected static string | \UnitEnum | null $navigationGroup = 'Post Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'Post Management';
 
     protected static ?string $model = Post::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {
@@ -58,6 +55,8 @@ class PostResource extends Resource
                     ->schema([
                         FileUpload::make('image')
                             ->directory('posts')
+                            ->disk('public')
+                            ->visibility('public')
                             ->image()
                             ->imageEditor()
                             ->imageResizeMode('cover')

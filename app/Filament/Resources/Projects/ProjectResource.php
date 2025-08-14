@@ -2,31 +2,28 @@
 
 namespace App\Filament\Resources\Projects;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
-use App\Filament\Resources\Projects\Pages\ListProjects;
+use App\Enum\ProjectStatusEnum;
 use App\Filament\Resources\Projects\Pages\CreateProject;
 use App\Filament\Resources\Projects\Pages\EditProject;
-use App\Enum\ProjectStatusEnum;
-use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Models\Project;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,9 +32,9 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Projects';
+    protected static string|\UnitEnum|null $navigationGroup = 'Projects';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {
@@ -58,7 +55,13 @@ class ProjectResource extends Resource
                             ->required(),
                         RichEditor::make('description')
                             ->label('Description')
-                            ->disableToolbarButtons(['attachFiles'])
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                                ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
+                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                                ['table'], // The `customBlocks` and `mergeTags` tools are also added here if those features are used.
+                                ['undo', 'redo'],
+                            ])
                             ->required(),
                         Repeater::make('features')
                             ->label('Features')
@@ -76,6 +79,7 @@ class ProjectResource extends Resource
                         FileUpload::make('main_image')
                             ->label('Main Image')
                             ->disk('public')
+                            ->visibility('public')
                             ->directory('project-images')
                             ->image()
                             ->imageEditor()
@@ -88,6 +92,7 @@ class ProjectResource extends Resource
                         FileUpload::make('galleries')
                             ->label('Galleries')
                             ->disk('public')
+                            ->visibility('public')
                             ->directory('project-images')
                             ->image()
                             ->imageEditor()

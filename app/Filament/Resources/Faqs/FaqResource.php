@@ -2,29 +2,26 @@
 
 namespace App\Filament\Resources\Faqs;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Faqs\Pages\ManageFaqs;
-use App\Filament\Resources\FaqResource\Pages;
 use App\Models\Faq;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Contact Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contact Management';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {

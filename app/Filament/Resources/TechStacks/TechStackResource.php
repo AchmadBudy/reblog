@@ -2,30 +2,27 @@
 
 namespace App\Filament\Resources\TechStacks;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\TechStacks\Pages\ManageTechStacks;
-use App\Filament\Resources\TechStackResource\Pages;
 use App\Models\TechStack;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class TechStackResource extends Resource
 {
     protected static ?string $model = TechStack::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {
@@ -35,6 +32,8 @@ class TechStackResource extends Resource
                     ->required(),
                 FileUpload::make('image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('tech-stacks')
                     ->imageEditor()
                     ->imageResizeMode('cover')

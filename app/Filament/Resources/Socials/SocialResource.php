@@ -2,30 +2,27 @@
 
 namespace App\Filament\Resources\Socials;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\Socials\Pages\ManageSocials;
-use App\Filament\Resources\SocialResource\Pages;
 use App\Models\Social;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class SocialResource extends Resource
 {
     protected static ?string $model = Social::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Contact Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contact Management';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {
@@ -39,6 +36,8 @@ class SocialResource extends Resource
                     ->required(),
                 FileUpload::make('image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('socials')
                     ->imageEditor()
                     ->imageResizeMode('cover')

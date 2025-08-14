@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\Faqs\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Resources\Faqs\FaqResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageFaqs extends ManageRecords

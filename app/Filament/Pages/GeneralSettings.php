@@ -2,19 +2,18 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
+use App\Settings\GeneralSetting;
+use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
-use Filament\Schemas\Components\Actions;
-use Filament\Actions\Action;
-use App\Settings\GeneralSetting;
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class GeneralSettings extends Page implements HasForms
@@ -23,9 +22,9 @@ class GeneralSettings extends Page implements HasForms
 
     public ?array $data = [];
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     protected string $view = 'filament.pages.general-settings';
 
@@ -53,6 +52,8 @@ class GeneralSettings extends Page implements HasForms
                             ->required(),
                         FileUpload::make('person_avatar')
                             ->directory('images')
+                            ->disk('public')
+                            ->visibility('public')
                             ->image()
                             ->imageEditor()
                             ->imageResizeMode('cover')
@@ -75,6 +76,8 @@ class GeneralSettings extends Page implements HasForms
                             ->required(),
                         FileUpload::make('icon')
                             ->directory('images')
+                            ->disk('public')
+                            ->visibility('public')
                             ->image()
                             ->imageEditor()
                             ->imageResizeMode('cover')

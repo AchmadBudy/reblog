@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -9,9 +10,9 @@ use Livewire\Attributes\Url;
 
 class MediaLibrary extends Page
 {
-    protected static string | \UnitEnum | null $navigationGroup = 'Post Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'Post Management';
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     protected string $view = 'filament.pages.media-library';
 
@@ -57,6 +58,10 @@ class MediaLibrary extends Page
     {
         if (Storage::disk('public')->exists($filePath)) {
             Storage::disk('public')->delete($filePath);
+            Notification::make()
+                ->title('File deleted successfully')
+                ->success()
+                ->send();
             $this->mount(); // Refresh the file list after deletion
         }
     }
