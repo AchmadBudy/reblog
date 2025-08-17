@@ -139,14 +139,15 @@ class ProjectResource extends Resource
                                     ->required(),
                                 Textarea::make('description')
                                     ->label('Description')
-                                    ->rows(10)
+                                    ->rows(5)
                                     ->required(),
                                 Textarea::make('solution')
                                     ->label('Solution')
-                                    ->rows(10)
+                                    ->rows(5)
                                     ->required(),
                             ]),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
             ])
             ->columns(3);
     }
