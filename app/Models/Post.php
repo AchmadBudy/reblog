@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Observers\PostObserver;
@@ -30,13 +32,6 @@ class Post extends Model
 {
     use SoftDeletes;
 
-    protected function casts(): array
-    {
-        return [
-            'tags' => 'array',
-        ];
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id')->withTrashed();
@@ -45,5 +40,12 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'tags' => 'array',
+        ];
     }
 }

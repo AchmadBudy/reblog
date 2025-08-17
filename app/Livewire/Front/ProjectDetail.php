@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Project;
@@ -12,13 +14,13 @@ class ProjectDetail extends Component
 {
     public Project $project;
 
-    public ?Project $otherProject;
+    public ?Project $otherProject = null;
 
     public Collection $socials;
 
     public Collection $generalSetting;
 
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->project->load(['challenges']);

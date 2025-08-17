@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\TechStack;
@@ -21,11 +23,9 @@ class TechStackObserver
     public function updated(TechStack $techStack): void
     {
         // check if image is updated
-        if ($techStack->isDirty('image')) {
-            // delete old image
-            if (Storage::disk('public')->exists($techStack->getOriginal('image'))) {
-                Storage::disk('public')->delete($techStack->getOriginal('image'));
-            }
+        // delete old image
+        if ($techStack->isDirty('image') && Storage::disk('public')->exists($techStack->getOriginal('image'))) {
+            Storage::disk('public')->delete($techStack->getOriginal('image'));
         }
     }
 

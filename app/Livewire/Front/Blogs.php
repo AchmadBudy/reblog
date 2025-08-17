@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Category;
@@ -26,7 +28,7 @@ class Blogs extends Component
 
     public Collection $generalSetting;
 
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->socials = Social::query()
@@ -39,17 +41,17 @@ class Blogs extends Component
     {
         $posts = Post::query()
             ->select('id', 'title', 'slug', 'excerpt', 'image', 'tags', 'category_id')
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query): void {
                 $query->whereLike('title', '%'.$this->search.'%');
             })
-            ->when($this->category_slug, function ($query) {
+            ->when($this->category_slug, function ($query): void {
                 if ($this->category_slug !== 'all') {
-                    $query->whereHas('category', function ($query) {
+                    $query->whereHas('category', function ($query): void {
                         $query->where('slug', $this->category_slug);
                     });
                 }
             })
-            ->with(['category' => function ($query) {
+            ->with(['category' => function ($query): void {
                 $query->select('id', 'name');
             }])
             ->latest()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
@@ -9,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        \App\Models\User::create([
+        App\Models\User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),

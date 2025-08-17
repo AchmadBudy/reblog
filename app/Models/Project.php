@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use App\Enum\ProjectStatusEnum;
 use App\Observers\ProjectObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
@@ -38,6 +40,11 @@ class Project extends Model
 {
     use SoftDeletes;
 
+    public function challenges(): HasMany
+    {
+        return $this->hasMany(ProjectChallenge::class);
+    }
+
     protected function casts(): array
     {
         return [
@@ -48,38 +55,33 @@ class Project extends Model
         ];
     }
 
-    public function challenges(): HasMany
-    {
-        return $this->hasMany(ProjectChallenge::class);
-    }
-
     protected function teamSizeText(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $attributes['team_size'].' '.Str::plural('Developer', $attributes['team_size']),
+            get: fn (mixed $value, array $attributes): string => $attributes['team_size'].' '.Str::plural('Developer', $attributes['team_size']),
         );
     }
 
     protected function durationDayText(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $this->convertDaysToText($attributes['duration_days']),
+            get: fn (mixed $value, array $attributes): string => $this->convertDaysToText($attributes['duration_days']),
         );
     }
 
-    protected function convertDaysToText($days): string
+    protected function convertDaysToText(?string $days): string
     {
         $hasil = '';
         if ($days >= 365) {
-            $year = intval($days / 365);
+            $year = (int) ($days / 365);
             $hasil .= $year.' year ';
-            $days = $days % 365;
+            $days %= 365;
         }
 
         if ($days >= 30) {
-            $month = intval($days / 30);
+            $month = (int) ($days / 30);
             $hasil .= $month.' month ';
-            $days = $days % 30;
+            $days %= 30;
         }
 
         if ($days > 0) {

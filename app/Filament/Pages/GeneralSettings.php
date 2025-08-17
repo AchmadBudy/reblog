@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
 use App\Settings\GeneralSetting;
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -15,6 +18,7 @@ use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
+use UnitEnum;
 
 class GeneralSettings extends Page implements HasForms
 {
@@ -22,9 +26,9 @@ class GeneralSettings extends Page implements HasForms
 
     public ?array $data = [];
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     protected string $view = 'filament.pages.general-settings';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers\Filament;
 
 use App\Settings\GeneralSetting;
@@ -30,9 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile(isSimple: false)
-            ->favicon(function (GeneralSetting $settings) {
-                return $settings->icon ? asset('storage/'.$settings->icon) : '';
-            })
+            ->favicon(fn(GeneralSetting $settings) => $settings->icon !== '' && $settings->icon !== '0' ? asset('storage/'.$settings->icon) : '')
             ->colors([
                 'primary' => Color::Amber,
             ])

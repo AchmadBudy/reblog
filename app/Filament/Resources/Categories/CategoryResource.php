@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Categories;
 
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,14 +21,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use UnitEnum;
 
 class CategoryResource extends Resource
 {
-    protected static string|\UnitEnum|null $navigationGroup = 'Post Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Post Management';
 
     protected static ?string $model = Category::class;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {

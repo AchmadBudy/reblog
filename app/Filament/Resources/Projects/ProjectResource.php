@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Projects;
 
 use App\Enum\ProjectStatusEnum;
@@ -7,6 +9,7 @@ use App\Filament\Resources\Projects\Pages\CreateProject;
 use App\Filament\Resources\Projects\Pages\EditProject;
 use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Models\Project;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -27,14 +30,15 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Projects';
+    protected static string|UnitEnum|null $navigationGroup = 'Projects';
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {
@@ -155,7 +159,7 @@ class ProjectResource extends Resource
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (ProjectStatusEnum $state) => $state->getColor()),
+                    ->color(fn (ProjectStatusEnum $state): string => $state->getColor()),
             ])
             ->filters([
                 TrashedFilter::make(),

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\TechStacks;
 
 use App\Filament\Resources\TechStacks\Pages\ManageTechStacks;
 use App\Models\TechStack;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -15,14 +18,15 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class TechStackResource extends Resource
 {
     protected static ?string $model = TechStack::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {

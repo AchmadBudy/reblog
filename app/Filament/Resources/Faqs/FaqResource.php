@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Faqs;
 
 use App\Filament\Resources\Faqs\Pages\ManageFaqs;
 use App\Models\Faq;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -14,14 +17,15 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Contact Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Contact Management';
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
 
     public static function form(Schema $schema): Schema
     {

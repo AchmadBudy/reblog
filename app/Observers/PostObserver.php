@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\Post;
@@ -21,12 +23,10 @@ class PostObserver
     public function updated(Post $post): void
     {
         // check if image is updated
-        if ($post->isDirty('image')) {
+        // delete old image
+        if ($post->isDirty('image') && Storage::disk('public')->exists($post->getOriginal('image'))) {
 
-            // delete old image
-            if (Storage::disk('public')->exists($post->getOriginal('image'))) {
-                Storage::disk('public')->delete($post->getOriginal('image'));
-            }
+            Storage::disk('public')->delete($post->getOriginal('image'));
         }
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Post;
@@ -12,15 +14,15 @@ class BlogDetail extends Component
 {
     public Post $post;
 
-    public ?Post $previousPost;
+    public ?Post $previousPost = null;
 
-    public ?Post $nextPost;
+    public ?Post $nextPost = null;
 
     public Collection $socials;
 
     public Collection $generalSetting;
 
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->post->load(['category', 'user']);

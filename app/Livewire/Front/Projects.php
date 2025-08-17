@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Project;
@@ -22,7 +24,7 @@ class Projects extends Component
 
     public Collection $generalSetting;
 
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->socials = Social::query()
@@ -35,7 +37,7 @@ class Projects extends Component
     {
         $projects = Project::query()
             ->select('id', 'name', 'main_image', 'slug', 'preview_description', 'tech_stack', 'created_at', 'status', 'live_demo', 'source_code')
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query): void {
                 $query->whereLike('name', '%'.$this->search.'%');
             })
             ->latest()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Post;
@@ -22,14 +24,14 @@ class Home extends Component
 
     public Collection $generalSetting;
 
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->posts = Post::query()
             ->select('id', 'title', 'slug', 'excerpt', 'image', 'tags', 'category_id')
             ->latest()
             ->limit(3)
-            ->with(['category' => function ($query) {
+            ->with(['category' => function ($query): void {
                 $query->select('id', 'name');
             }])
             ->get();

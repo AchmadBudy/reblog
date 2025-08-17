@@ -1,21 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Url;
+use UnitEnum;
 
 class MediaLibrary extends Page
 {
-    protected static string|\UnitEnum|null $navigationGroup = 'Post Management';
-
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
-
-    protected string $view = 'filament.pages.media-library';
-
     #[Url(as: 'page')]
     public $currentPage = '';
 
@@ -29,18 +27,22 @@ class MediaLibrary extends Page
 
     public int $totalPages = 0;
 
-    public function mount()
+    protected static string|UnitEnum|null $navigationGroup = 'Post Management';
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-right-circle';
+
+    protected string $view = 'filament.pages.media-library';
+
+    public function mount(): void
     {
         if (empty($this->currentPage)) {
             $this->currentPage = 1;
         }
 
         $allFiles = collect(Storage::disk('public')->files('posts/content'))
-            ->map(function ($file) {
-                return [
-                    'path' => $file,
-                ];
-            });
+            ->map(fn($file): array => [
+                'path' => $file,
+            ]);
 
         $this->totalPages = ceil($allFiles->count() / $this->perPage);
         $this->hasMorePages = $this->totalPages > $this->currentPage;
@@ -48,13 +50,13 @@ class MediaLibrary extends Page
         $this->files = $allFiles->forPage($this->currentPage, $this->perPage);
     }
 
-    public function changePage($page)
+    public function changePage($page): void
     {
         $this->currentPage = $page;
         $this->mount(); // Re-run mount to re-calculate pagination and filter files
     }
 
-    public function deleteFile($filePath)
+    public function deleteFile($filePath): void
     {
         if (Storage::disk('public')->exists($filePath)) {
             Storage::disk('public')->delete($filePath);

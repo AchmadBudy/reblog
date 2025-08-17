@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Posts\Pages;
 
 use App\Filament\Resources\Posts\PostResource;
@@ -25,7 +27,7 @@ class EditPost extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['title']);
-        $data['excerpt'] = Str::limit(strip_tags($data['content']), 100);
+        $data['excerpt'] = Str::limit(strip_tags((string) $data['content']), 100);
         $data['content'] = str($data['content'])->replace('<pre>', '<pre class="language-any">');
 
         return $data;

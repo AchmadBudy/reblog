@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\Social;
@@ -21,11 +23,9 @@ class SocialObserver
     public function updated(Social $social): void
     {
         // check if image is updated
-        if ($social->isDirty('image')) {
-            // delete old image
-            if (Storage::disk('public')->exists($social->getOriginal('image'))) {
-                Storage::disk('public')->delete($social->getOriginal('image'));
-            }
+        // delete old image
+        if ($social->isDirty('image') && Storage::disk('public')->exists($social->getOriginal('image'))) {
+            Storage::disk('public')->delete($social->getOriginal('image'));
         }
     }
 

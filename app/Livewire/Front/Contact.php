@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Front;
 
 use App\Models\Faq;
@@ -18,7 +20,7 @@ class Contact extends Component
     public Collection $generalSetting;
 
     #[Title('Contact')]
-    public function mount(GeneralSetting $generalSetting)
+    public function mount(GeneralSetting $generalSetting): void
     {
         $this->generalSetting = $generalSetting->toCollection();
         $this->socials = Social::query()
