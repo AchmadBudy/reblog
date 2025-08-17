@@ -40,11 +40,11 @@ class MediaLibrary extends Page
         }
 
         $allFiles = collect(Storage::disk('public')->files('posts/content'))
-            ->map(fn($file): array => [
+            ->map(fn ($file): array => [
                 'path' => $file,
             ]);
 
-        $this->totalPages = ceil($allFiles->count() / $this->perPage);
+        $this->totalPages = (int) ceil($allFiles->count() / $this->perPage);
         $this->hasMorePages = $this->totalPages > $this->currentPage;
         $this->hasPreviousPages = $this->currentPage > 1;
         $this->files = $allFiles->forPage($this->currentPage, $this->perPage);
